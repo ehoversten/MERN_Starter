@@ -1,0 +1,16 @@
+{
+  "name": "MERN_template",
+  "version": "1.0.0",
+  "description": "Fullstack MERN base application with JWT Authentication",
+  "main": "./server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "watch": "nodemon server/server.js",
+    "test": "yarn run test"
+  },
+  "author": "ehoversten <ehoversten@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
