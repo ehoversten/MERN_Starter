@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server/server.js",
     "watch": "nodemon server/server.js",
+    "server": "node server/server.js",
+    "client": "cd client && npm start",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
@@ -15,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "caniuse-lite": "^1.0.30001255",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
