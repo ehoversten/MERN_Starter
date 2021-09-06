@@ -2,15 +2,23 @@
   "name": "MERN_template",
   "version": "1.0.0",
   "description": "Fullstack MERN base application with JWT Authentication",
-  "main": "./server/server.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server/server.js",
     "watch": "nodemon server/server.js",
-    "test": "yarn run test"
+    "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build"
   },
-  "author": "ehoversten <ehoversten@gmail.com>",
+  "author": "Erik Hoversten",
   "license": "MIT",
   "dependencies": {
+    "caniuse-lite": "^1.0.30001255",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1",
+    "nodemon": "^2.0.12"
   }
 }
