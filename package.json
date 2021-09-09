@@ -9,7 +9,6 @@
     "server": "node server/server.js",
     "client": "cd client && npm start",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
-    "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build"
   },
@@ -18,7 +17,8 @@
   "dependencies": {
     "caniuse-lite": "^1.0.30001255",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "concurrently": "^6.2.1",
