@@ -18,6 +18,8 @@
     "caniuse-lite": "^1.0.30001255",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "mongoose": "^6.0.5",
     "morgan": "^1.10.0"
   },
   "devDependencies": {

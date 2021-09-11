@@ -1,23 +1,38 @@
-require('dotenv').config();
 const express = require('express');
 const path = require("path");
 const logger = require('morgan');
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 3001;
+require('dotenv').config();
+
+const routes = require('./routes');
+const connectDB = require('./config/connection');
+
+/* === Database Connection === */
+connectDB();
 
 const app = express();
 
 /* === Middleware === */
 app.use(logger('dev'));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 
 
 /* === Routing === */
-app.get('/', (req, res) => {
-    res.send("Testing Route");
-})
+app.use(routes);
+
+// Serve up static assets
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 
+// db.once('open', () => {
 app.listen(PORT, () => {
     console.log(`Server is in ${process.env.NODE_ENV} mode on port: ${PORT}`);
 });
+// });
