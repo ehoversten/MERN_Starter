@@ -87,8 +87,25 @@ router.post('/login', async (req, res) => {
     }
 
     try {
-        let found = await User.findOne();
-        console.log(found);
+        const { email, password } = req.body;
+
+        // -- Input Validation -- //
+        if(!email || !password) {
+            return res
+                    .status(400)
+                    .json({ errorMessage: "Please Enter All Fields!"});
+        }
+
+        // -- Compare Passwords -- //
+        // if(password.length > 6) {
+        //     return res  
+        //             .status(400)
+        //             .json({ errorMessage: "Password must be at least 6 characters!"});
+        // }
+
+        let foundUser = await User.findOne({ email });
+
+        console.log(foundUser);
     } catch(err) {
         console.error(err);
     }
