@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../../models/userModel');
+const bcrypt = require('bcrypt');
 
 // Route --> '/api/users' 
 router.get('/', (req, res) => {
@@ -8,7 +9,7 @@ router.get('/', (req, res) => {
 
 
 router.get('/all', async (req, res) => {
-    let allUsers = await User.find();
+    let allUsers = await User.find({});
     console.log(allUsers);
 
     res.json(allUsers);
@@ -27,7 +28,7 @@ router.post('/register', async (req, res) => {
                     .json({ errorMessage: "Please Enter All Fields!"});
         }
 
-        if(password.length > 6) {
+        if(password.length < 6) {
             return res  
                     .status(400)
                     .json({ errorMessage: "Password must be at least 6 characters!"});
@@ -41,41 +42,34 @@ router.post('/register', async (req, res) => {
 
         let existingUser = User.findOne({ email });
         console.log(existingUser);
+
         if(existingUser) {
             res.status(400)
                 .json({ errorMessage: "Email Already Exists"})
         }
 
         // -- Encrypt Password before Saving to Database -- //
-        let hashPass = password;
+        let salt =  await bcrypt.genSalt();
+        let passHash = await bcrypt.hash(password, salt);
 
         let newUser = {
             firstName: first,
             lastName: last,
             username: username,
             email: email,
-            password: hashPass
+            password: passHash
         }
 
+        console.log(newUser);
 
+        const savedUser = await User.create(newUser);
+
+        res.status(201).json(savedUser);
     } catch(err) {
         console.error(err);
         res.status(500).send("ERROR ...");
     }
 
-
-    console.log(newUser);
-
-    // Create User in DB
-    // try {
-    //     await User.create(newUser);
-    //     console.log("new user created ...")
-    //     res.json(newUser);
-    // } catch(err) {
-    //     console.error(err);
-    // }
-
-    res.json(newUser);
 });
 
 router.post('/login', async (req, res) => {
