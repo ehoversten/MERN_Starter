@@ -41,9 +41,9 @@ router.post('/register', async (req, res) => {
                     .json({ errorMessage: "Passwords must match!"});
         }
 
-        let existingUser = User.findOne({ email });
+        let existingUser = await User.findOne({ email });
         // -- For Testing -- //
-        // console.log(existingUser);
+        console.log(existingUser);
 
         if(existingUser) {
             res.status(400)
@@ -84,17 +84,9 @@ router.post('/register', async (req, res) => {
         console.error(err);
         res.status(500).send("ERROR ...");
     }
-
 });
 
 router.post('/login', async (req, res) => {
-    console.log(req.body);
-
-    let loginObj = {
-        email: req.body.email,
-        password: req.body.password
-    }
-
     try {
         const { email, password } = req.body;
 
@@ -105,21 +97,34 @@ router.post('/login', async (req, res) => {
                     .json({ errorMessage: "Please Enter All Fields!"});
         }
 
-        // -- Compare Passwords -- //
-        // if(password.length > 6) {
-        //     return res  
-        //             .status(400)
-        //             .json({ errorMessage: "Password must be at least 6 characters!"});
-        // }
-
+        // -- Check User -- //
         let foundUser = await User.findOne({ email });
-
         console.log(foundUser);
+        if(!foundUser) {
+            return res.status(401).json({ errorMessage: "Not Authorized"});
+        }
+        // -- Verify Password -- //
+        const verified = await bcrypt.compare(password, foundUser.password);
+        console.log(verified);
+        if(!verified) {
+             return res.status(401).json({ errorMessage: "Not Authorized"});
+        }
+
+        // -- Sign Token -- //
+        const token = jwt.sign({
+            user: foundUser._id
+        }, process.env.JWT_SECRET);
+
+        // -- For Testing -- //
+        // console.log(token);
+        console.log("Login Successful");
+
+        // -- Send Token -- //
+        res.status(200).cookie("token", token, { httpOnly: true }).send();
     } catch(err) {
         console.error(err);
+        res.status(500).json({ errorMessage: "Not Authorized"});
     }
-
-    res.json(loginObj);
 });
 
 
