@@ -2,6 +2,7 @@ const express = require('express');
 const path = require("path");
 const logger = require('morgan');
 const PORT = process.env.PORT || 3001;
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const routes = require('./routes');
@@ -14,7 +15,8 @@ const app = express();
 
 /* === Middleware === */
 app.use(logger('dev'));
-app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
