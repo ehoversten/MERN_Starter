@@ -116,7 +116,7 @@ router.post('/login', async (req, res) => {
         }, process.env.JWT_SECRET);
 
         // -- For Testing -- //
-        // console.log(token);
+        console.log(token);
         console.log("Login Successful");
 
         // -- Send Token -- //
@@ -125,6 +125,14 @@ router.post('/login', async (req, res) => {
         console.error(err);
         res.status(500).json({ errorMessage: "Not Authorized"});
     }
+});
+
+router.get('/logout', (req, res) => {
+    // -- Reset JWT Cookie -- //
+    console.log("Logout Successful");
+    res
+        .cookie('token', "", { httpOnly: true, expires: new Date(0) })
+        .send("Logged Out");
 });
 
 
