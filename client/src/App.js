@@ -12,7 +12,6 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Header className="App-header"/>
-
         <Switch>
           <Route exact path='/' component={Dashboard} />
           <Route path='/authorized' component={Dashboard} />
