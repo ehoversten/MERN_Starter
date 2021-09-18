@@ -4,6 +4,7 @@ const logger = require('morgan');
 const PORT = process.env.PORT || 3001;
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
+const cors = require('cors');
 
 const routes = require('./routes');
 const connectDB = require('./config/connection');
@@ -16,6 +17,7 @@ const app = express();
 /* === Middleware === */
 app.use(logger('dev'));
 app.use(cookieParser());
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

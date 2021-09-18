@@ -3,12 +3,12 @@ const User = require('../../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// Route --> '/api/users' 
+// -- Route --> '/api/users/' 
 router.get('/', (req, res) => {
     res.send("Hit Users Route");
 });
 
-
+// -- Route --> '/api/users/all' 
 router.get('/all', async (req, res) => {
     let allUsers = await User.find({});
     console.log(allUsers);
@@ -16,8 +16,11 @@ router.get('/all', async (req, res) => {
     res.json(allUsers);
 });
 
+// -- Route --> '/api/users/register' 
 router.post('/register', async (req, res) => {
-    console.log(req.body);
+    // -- TESTING -- //
+    // console.log('Hit Register Route...');
+    // console.log(req.body);
 
     try {
         const { first, last, username, email, password, confirm } = req.body;
@@ -43,7 +46,7 @@ router.post('/register', async (req, res) => {
 
         let existingUser = await User.findOne({ email });
         // -- For Testing -- //
-        console.log(existingUser);
+        // console.log(existingUser);
 
         if(existingUser) {
             res.status(400)
@@ -63,12 +66,12 @@ router.post('/register', async (req, res) => {
         });
 
         // -- For Testing -- //
-        console.log(newUser);
-        console.log('*********');
+        // console.log(newUser);
+        // console.log('*********');
 
         // -- Save Record -- //
         const savedUser = await User.create(newUser);
-        console.log(savedUser);
+        // console.log(savedUser);
 
         // -- Create Token -- //
         const token = jwt.sign({
@@ -76,7 +79,7 @@ router.post('/register', async (req, res) => {
         }, process.env.JWT_SECRET);
 
         // -- For Testing -- //
-        console.log(token);
+        console.log(`Token: ${token}`);
 
         // -- Send Token -- //
         res.status(201).cookie("token", token, { httpOnly: true }).send();
@@ -86,7 +89,9 @@ router.post('/register', async (req, res) => {
     }
 });
 
+// -- Route --> '/api/users/login' 
 router.post('/login', async (req, res) => {
+    console.log('Hit Login Route...');
     try {
         const { email, password } = req.body;
 
@@ -99,13 +104,13 @@ router.post('/login', async (req, res) => {
 
         // -- Check User -- //
         let foundUser = await User.findOne({ email });
-        console.log(foundUser);
+        console.log(`Found User: ${foundUser}`);
         if(!foundUser) {
             return res.status(401).json({ errorMessage: "Not Authorized"});
         }
         // -- Verify Password -- //
         const verified = await bcrypt.compare(password, foundUser.password);
-        console.log(verified);
+        console.log(`Verified: ${verified}`);
         if(!verified) {
              return res.status(401).json({ errorMessage: "Not Authorized"});
         }
@@ -116,7 +121,7 @@ router.post('/login', async (req, res) => {
         }, process.env.JWT_SECRET);
 
         // -- For Testing -- //
-        console.log(token);
+        console.log(`Token: ${token}`);
         console.log("Login Successful");
 
         // -- Send Token -- //
@@ -127,7 +132,9 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// -- Route --> '/api/users/logout' 
 router.get('/logout', (req, res) => {
+    console.log('Hit Logout Route...');
     // -- Reset JWT Cookie -- //
     console.log("Logout Successful");
     res
