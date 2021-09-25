@@ -17,7 +17,10 @@ const app = express();
 /* === Middleware === */
 app.use(logger('dev'));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:3001"],
+  credentials: true
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

@@ -10,7 +10,8 @@
     "client": "cd client && npm start",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "seed": "cd server && npm run seed",
-    "build": "cd client && npm run build"
+    "build": "cd client && npm run build",
+    "debug": "nodemon --inspect"
   },
   "author": "Erik Hoversten",
   "license": "MIT",
