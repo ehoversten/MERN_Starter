@@ -4,8 +4,10 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import axios from 'axios';
 import './App.css';
 
+axios.defaults.withCredentials = true;
 
 function App() {
   return (

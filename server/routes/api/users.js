@@ -132,6 +132,22 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// -- Route --> '/api/users/loggedIn' 
+router.get('/loggedIn', (req, res) => {
+    try {
+        const token = req.cookies.token;
+        console.log(`Token ${token}`);
+
+        if(!token) res.json(false);
+
+        jwt.verify(token, process.env.JWT_SECRET);
+        res.send(true);
+    } catch(err) {
+        console.error(err);
+        res.json(false);
+    } 
+});
+
 // -- Route --> '/api/users/logout' 
 router.get('/logout', (req, res) => {
     console.log('Hit Logout Route...');

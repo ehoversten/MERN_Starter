@@ -24,7 +24,7 @@ const Register = () => {
                 password,
                 confirm
             }
-            await axios.post('http://localhost:3001/api/users/register', registerData);
+            await axios.post('http://localhost:3001/api/users/register', registerData, { withCredentials: true });
 
         } catch(err) {
             console.error(err);

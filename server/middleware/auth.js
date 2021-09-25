@@ -10,7 +10,7 @@ function auth(req, res, next) {
         const verified = jwt.verify(token, process.env.JWT_SECRET);
 
         // -- Testing -- // 
-        console.log(verified);
+        console.log(`Verified: ${verified}`);
 
         res.user = verified.user;
         next();
