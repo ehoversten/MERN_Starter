@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Container, Form, Button, Card } from 'react-bootstrap';
+import './styles.css';
 import axios from 'axios';
 
 const Register = () => {
@@ -10,6 +12,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
+    const history = useHistory();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,14 +28,14 @@ const Register = () => {
                 confirm
             }
             await axios.post('http://localhost:3001/api/users/register', registerData, { withCredentials: true });
-
+            history.push('/');
         } catch(err) {
             console.error(err);
         }
     }; 
 
     return (
-        <Container>
+        <Container id="register">
             <Card className="mt-5">
                 <Card.Header>Register A New User</Card.Header>
                 <Card.Body>

@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import UsersView from './pages/Admin/AdminUsers';
 import axios from 'axios';
 import './App.css';
 
@@ -19,6 +20,9 @@ function App() {
           <Route path='/authorized' component={Dashboard} />
           <Route path='/register' component={Register} />
           <Route path='/login' component={Login} />
+
+          {/* TESTING  */}
+          <Route path='/users' component={UsersView} />
         </Switch>
         <Footer />
       </div>

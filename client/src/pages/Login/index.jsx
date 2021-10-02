@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import './styles.css';
 import axios from 'axios';
@@ -7,6 +8,7 @@ const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const history = useHistory();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,7 +20,7 @@ const Login = () => {
                 password
             }
             await axios.post('http://localhost:3001/api/users/login', loginData, { withCredentials: true });
-
+            history.push('/');
         } catch(err) {
             console.error(err);
         }
