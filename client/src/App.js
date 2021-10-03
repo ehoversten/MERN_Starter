@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import UsersView from './pages/Admin/AdminUsers';
+import UserDetail from './pages/Admin/Users/Detail';
 import axios from 'axios';
 import './App.css';
 
@@ -22,7 +23,8 @@ function App() {
           <Route path='/login' component={Login} />
 
           {/* TESTING  */}
-          <Route path='/users' component={UsersView} />
+          <Route exact path='/users' component={UsersView} />
+          <Route path='/users/:id' component={UserDetail} />
         </Switch>
         <Footer />
       </div>

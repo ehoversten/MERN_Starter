@@ -15,7 +15,7 @@ const AdminUsers = () => {
     // Destructure from userList Object STATE
     const { loading, error, users } = userList;
     
-    useEffect( async () => {
+    useEffect( () => {
         // let data = await axios.get('/api/users/all');
         // console.log(data.data);
         // setUsers(data.data);

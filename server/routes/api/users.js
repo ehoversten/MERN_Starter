@@ -28,7 +28,26 @@ router.get('/all', async (req, res) => {
     }
 });
 
+// @desc     Fetch Single USER 
+// @route    GET /api/users/:id
+// @access   Public
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        let user = await User.findById(id);
+        console.log(user)
+        res.status(200).json(user);
+    } catch(error) {
+        console.error(error);
+        res.status(500).json(error);
+    }
+});
+
+
 // -- Route --> '/api/users/register' 
+// @desc     CREATE NEW USER
+// @route    POST /api/users/register
+// @access   Public
 router.post('/register', async (req, res) => {
     // -- TESTING -- //
     // console.log('Hit Register Route...');
@@ -101,7 +120,10 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// -- Route --> '/api/users/login' 
+// -- Route --> '/api/users/login'
+// @desc     LOGIN USER
+// @route    POST /api/users/login
+// @access   Public
 router.post('/login', async (req, res) => {
     console.log('Hit Login Route...');
     try {
@@ -144,7 +166,10 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// -- Route --> '/api/users/loggedIn' 
+// -- Route --> '/api/users/loggedIn'
+// @desc     Check if USER is LOGGED IN
+// @route    GET /api/users/loggedIn
+// @access   Public
 router.get('/loggedIn', (req, res) => {
     try {
         const token = req.cookies.token;
@@ -161,6 +186,9 @@ router.get('/loggedIn', (req, res) => {
 });
 
 // -- Route --> '/api/users/logout' 
+// @desc     LOG USER OUT
+// @route    GET /api/users/logout
+// @access   Public
 router.get('/logout', (req, res) => {
     console.log('Hit Logout Route...');
     // -- Reset JWT Cookie -- //
