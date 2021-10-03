@@ -5,7 +5,8 @@ export const listUsers = () => async (dispatch) => {
         dispatch({ type: 'GET_ALL_USERS_REQUEST' })
 
         const { data } = await axios.get('/api/users/all');
-
+        // -- TESTING -- //
+        console.log(data);
         dispatch({
             type: 'GET_ALL_USERS_SUCCESS',
             payload: data

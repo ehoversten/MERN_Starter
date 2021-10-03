@@ -7,8 +7,7 @@ const Loader = () => {
             animation="border" 
             variant="success" 
             role="status"
-            size="md">
-            <span>Loading ...</span>
+            size="lg">
         </Spinner>
     )
 }

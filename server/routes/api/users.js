@@ -4,16 +4,28 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // -- Route --> '/api/users/' 
+// @desc     Fetch ALL USERS
+// @route    GET /api/users
+// @access   Public
 router.get('/', (req, res) => {
     res.send("Hit Users Route");
 });
 
 // -- Route --> '/api/users/all' 
+// @desc     Fetch ALL USERS
+// @route    GET /api/users/all
+// @access   Public
 router.get('/all', async (req, res) => {
-    let allUsers = await User.find({});
-    console.log(allUsers);
-
-    res.json(allUsers);
+    try {
+        // -- TESTING -- //
+        // throw new Error("Ooops something went sideways ...");
+        let allUsers = await User.find({});
+        // console.log(allUsers);
+        res.json(allUsers);
+    } catch(error) {
+        console.error(error.errorMessage);
+        res.status(500).json(error);
+    }
 });
 
 // -- Route --> '/api/users/register' 

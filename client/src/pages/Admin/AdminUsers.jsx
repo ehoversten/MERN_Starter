@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { listUsers } from '../../utils/actions';
+import Loader from '../../components/Loader/Loader';
+import Message from '../../components/Message/Message';
 // import { userReducer } from '../../utils/reducers';
 import { Container, Row, Card } from 'react-bootstrap';
 import axios from 'axios';
@@ -25,9 +27,9 @@ const AdminUsers = () => {
         <Container id="admin-users">
             <h1>All Users</h1>
             { loading ? (
-                <h2>Loading ...</h2>
+                <Loader/>
             ) : error ? (
-                <h3>{error}</h3>
+                <Message variant="danger">{error}</Message>
             ) : (
                 <ul>
                     { users ? users.map(user => (
