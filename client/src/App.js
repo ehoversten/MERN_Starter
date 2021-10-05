@@ -21,6 +21,7 @@ function App() {
           <Route path='/authorized' component={Dashboard} />
           <Route path='/register' component={Register} />
           <Route path='/login' component={Login} />
+          {/* <Route path='/logout' component={Logout} /> */}
 
           {/* TESTING  */}
           <Route exact path='/users' component={UsersView} />
