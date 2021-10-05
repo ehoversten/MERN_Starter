@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { getUsers, getUserDetail } = require('../../controllers/userController');
 const User = require('../../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -11,37 +12,15 @@ router.get('/', (req, res) => {
     res.send("Hit Users Route");
 });
 
-// -- Route --> '/api/users/all' 
-// @desc     Fetch ALL USERS
-// @route    GET /api/users/all
-// @access   Public
-router.get('/all', async (req, res) => {
-    try {
-        // -- TESTING -- //
-        // throw new Error("Ooops something went sideways ...");
-        let allUsers = await User.find({});
-        // console.log(allUsers);
-        res.json(allUsers);
-    } catch(error) {
-        console.error(error.errorMessage);
-        res.status(500).json(error);
-    }
-});
+
+router.get('/all', getUsers);
+// router.route('/all').get(getUsers);
 
 // @desc     Fetch Single USER 
 // @route    GET /api/users/:id
 // @access   Public
-router.get('/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        let user = await User.findById(id);
-        console.log(user)
-        res.status(200).json(user);
-    } catch(error) {
-        console.error(error);
-        res.status(500).json(error);
-    }
-});
+// router.get('/:id', getUserDetail);
+router.route('/:id').get(getUserDetail);
 
 
 // -- Route --> '/api/users/register' 
