@@ -14,7 +14,8 @@ export const login = (email, password) => async (dispatch) => {
         // Attach Authorization Headers
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Accept":"application/json"
             },
             withCredentials: true
          }
@@ -48,4 +49,10 @@ export const login = (email, password) => async (dispatch) => {
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
+}
+
+export const logout = () => async (dispatch) => {
+    console.log("Running LOGOUT DISPATCH ...");
+    axios.get('/api/users/logout');
+    dispatch({ type: 'USER_LOGOUT'});
 }

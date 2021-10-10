@@ -5,36 +5,35 @@ import axios from 'axios';
 
 const Dashboard = () => {
 
-    const [username, setUsername] = useState('');
-    const [isUser, setIsUser] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false) ;
+    const [user, setUser] = useState();
 
-    // useEffect( async () => {
-    //     // setIsUser(false);
-    //     // HOW TO SEND THE COOKIE (JWT) with the REQUEST (???)
+    useEffect( async () => {
+        // HOW TO SEND THE COOKIE (JWT) with the REQUEST (???)
 
-    //     // let user = await axios.get('/api/users/loggedIn');
-    //     let user = await fetch('api/users/loggedIn', {
-    //         method: 'GET',
-    //         headers: {
-    //             "Content-Type":"application/json",
-    //             "Accept":"application/json"
-    //         }, 
-    //         credentials: "include"
-    //     })
+        let { data } = await axios.get('/api/users/loggedIn', {
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"application/json"
+            }, 
+            withCredential: true
+        });
 
-    //     console.log(user);
-    //     // if(user) {
-    //     //     let userToken = res.cookies.token;
-    //     //     console.log(userToken)
-    //     //     setUsername = jwt.verify(userToken, process.env.JWT_SECRET);
-    //     // }
-    //     setIsUser(user);
-    // }, [])
+        if(!data) {
+            setLoggedIn(false);
+        } else {
+            console.log(data);
+            setUser(data);
+            setLoggedIn(true);
+        }
+
+    }, [])
 
     return (
         <Container id="dash">
             <h1>Dashboard</h1>
-            { isUser ? <h1>True</h1> : <h1>False</h1> }
+            { loggedIn ? <h1>True</h1> : <h1>False</h1> }
+            { user ? <h1>{user.username}</h1> : null }
         </Container>
     )
 }

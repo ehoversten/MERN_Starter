@@ -97,18 +97,18 @@ const login = async (req, res) => {
             return res.status(401).json({ errorMessage: "Not Authorized"});
         }
         // -- Verify Password -- //
-        // const verified = await bcrypt.compare(password, foundUser.password);
-        // console.log(`Verified: ${verified}`);
-        // if(!verified) {
-            //      return res.status(401).json({ errorMessage: "Not Authorized"});
-            // }
+        const verified = await bcrypt.compare(password, foundUser.password);
+        console.log(`Verified: ${verified}`);
+        if(!verified) {
+            return res.status(401).json({ errorMessage: "Not Authorized"});
+        }
             
         // -- Verify Password -- //
-        const isMatch = await foundUser.matchPassword(password);
-        console.log(isMatch);
-        if(!isMatch) {
-             return res.status(401).json({ errorMessage: "Not Authorized"});
-        }
+        // const isMatch = await foundUser.matchPassword(password);
+        // console.log(isMatch);
+        // if(!isMatch) {
+        //      return res.status(401).json({ errorMessage: "Not Authorized"});
+        // }
 
         // -- Sign Token -- //
         const token = jwt.sign({
@@ -134,14 +134,17 @@ const login = async (req, res) => {
 // @route    GET /api/users/loggedIn
 // @access   Public
 const isLoggedIn = (req, res) => {
+    console.log('Checking if Logged In ...');
     try {
         const token = req.cookies.token;
         console.log(`Token: ${token}`);
 
-        if(!token) res.json(false);
-
-        jwt.verify(token, process.env.JWT_SECRET);
-        res.send(true);
+        if(!token) {
+            res.json(false);
+        } else {
+            jwt.verify(token, process.env.JWT_SECRET);
+            res.send(true);
+        }
     } catch(err) {
         console.error(err);
         res.json(false);
