@@ -1,9 +1,7 @@
 const router = require('express').Router();
 const { getUsers, getUserDetail } = require('../../controllers/userController');
 const { register, login, logout, isLoggedIn } = require('../../controllers/authController');
-// const User = require('../../models/userModel');
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
+const auth = require('../../middleware/auth.js');
 
 // -- Route --> '/api/users/' 
 // @desc     Fetch ALL USERS
@@ -15,7 +13,7 @@ router.get('/', (req, res) => {
 
 // -- Route --> '/api/users/' 
 // -- Have to Pick a Style ??? -- //
-router.get('/all', getUsers);
+router.get('/all', auth, getUsers);
 // router.route('/all').get(getUsers);
 // router.get('/:id', getUserDetail);
 router.route('/:id').get(getUserDetail);

@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import './styles.css';
-import axios from 'axios';
+import { login } from '../../utils/authAction';
+import Message from '../../components/Message/Message';
+import Loader from '../../components/Loader/Loader';
+// import axios from 'axios';
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const dispatch = useDispatch();
+    const userLogin = useSelector(state => state.userLogin);
+    const { loading, error, userInfo} = userLogin;
+
     const history = useHistory();
+
+    useEffect(() => {
+        if(userInfo) {
+            history.push('/');
+        }
+    }, [userInfo]) 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Submission...")
-
-        try {
-            let loginData = {
-                email,
-                password
-            }
-            await axios.post('http://localhost:3001/api/users/login', loginData, { withCredentials: true });
-            history.push('/');
-        } catch(err) {
-            console.error(err);
-        }
+        // Dispatch LOGIN
+        dispatch(login(email, password))
+        history.push('/');
+        // try {
+        //     let loginData = {
+        //         email,
+        //         password
+        //     }
+        //     await axios.post('http://localhost:3001/api/users/login', loginData, { withCredentials: true });
+        //     history.push('/');
+        // } catch(err) {
+        //     console.error(err);
+        // }
     }; 
 
     return (
        <Container id="login">
             <Card className="mt-5">
+                { error && <Message variant='danger'>{error}</Message>}
+                { loading && <Loader />}
                 <Card.Header>User Login</Card.Header>
                 <Card.Body>
                     <Form onSubmit={handleSubmit}>

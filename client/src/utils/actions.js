@@ -5,7 +5,7 @@ export const listUsers = () => async (dispatch) => {
     try {
         // Set 'loading' to TRUE
         dispatch({ type: 'GET_ALL_USERS_REQUEST' })
-        // Request to Server
+        // Make Request to Server
         const { data } = await axios.get('/api/users/all');
         // -- TESTING -- //
         console.log(data);

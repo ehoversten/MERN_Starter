@@ -4,6 +4,9 @@ const User = require('../models/userModel');
 // @route    GET /api/users/all
 // @access   Public
 const getUsers = async (req, res) => {
+
+    console.log(req.user);
+
     try {
         // -- TESTING -- //
         // throw new Error("Ooops something went sideways ...");
@@ -30,6 +33,23 @@ const getUserDetail = async (req, res) => {
         res.status(500).json(error);
     }
 }
+
+
+// @desc     Fetch Logged In USER 
+// @route    GET /api/users/detail
+// @access   Private
+const getCurrentUser = async (req, res) => {
+    try {
+        const { id } = req.user;
+        let user = await User.findById(id).select('-password');
+        console.log(user);
+        res.status(200).json(user);
+    } catch(error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+}
+
 
 
 module.exports = {
