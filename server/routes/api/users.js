@@ -16,11 +16,11 @@ router.get('/', (req, res) => {
 router.get('/all', auth, getUsers);
 // router.route('/all').get(getUsers);
 // router.get('/:id', getUserDetail);
-router.route('/:id').get(getUserDetail);
 router.post('/register', register);
 router.post('/login', login);
 router.get('/loggedIn', isLoggedIn);
 router.get('/logout', logout);
+router.route('/:id').get(getUserDetail);
 
 
 module.exports = router;

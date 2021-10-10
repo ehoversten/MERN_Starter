@@ -38,15 +38,15 @@ const register = async (req, res) => {
         }
 
         // -- Encrypt Password -- //
-        let salt =  await bcrypt.genSalt();
-        let passHash = await bcrypt.hash(password, salt);
+        // let salt =  await bcrypt.genSalt();
+        // let passHash = await bcrypt.hash(password, salt);
 
         let newUser = new User({
             firstName: first,
             lastName: last,
             username: username,
             email: email,
-            password: passHash
+            password: password
         });
 
         // -- For Testing -- //
@@ -111,7 +111,8 @@ const login = async (req, res) => {
         console.log("Login Successful");
 
         // -- Send Token -- //
-        res.status(200).cookie("token", token, { httpOnly: true }).send();
+        // res.status(200).cookie("token", token, { httpOnly: true }).send();
+        res.status(200).cookie("token", token, { httpOnly: true }).json(foundUser).send();
     } catch(err) {
         console.error(err);
         res.status(500).json({ errorMessage: "Not Authorized"});
@@ -124,7 +125,7 @@ const login = async (req, res) => {
 const isLoggedIn = (req, res) => {
     try {
         const token = req.cookies.token;
-        console.log(`Token ${token}`);
+        console.log(`Token: ${token}`);
 
         if(!token) res.json(false);
 
