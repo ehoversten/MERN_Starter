@@ -24,13 +24,29 @@ function auth(req, res, next) {
 }
 
 
-function authMiddleware(req, res, next) {
+const protect = async (req, res, next) => {
     try {
         console.log(req.headers);
-        const token = req.headers.authorization;
+        let token;
+        if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+            token = req.headers.authorization.split(" ")[1];
+        }
         console.log(token);
 
-        // if(token)
+        if(!token) res.status(401).json({ errorMessage: "Unauthorized" });
+
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+
+        // -- Testing -- // 
+        // console.log(`Verified: ${verified.toString()}`);
+        // console.log(verified); 
+        // console.log(verified.user); 
+
+        // Fetch User from DB 
+        const user = await User.findById(verified.id)
+
+        req.user = user;
+        // console.log(req.user);
         next();
     } catch(error) {
         console.log(error);

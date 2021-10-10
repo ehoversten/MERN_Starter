@@ -90,14 +90,23 @@ const login = async (req, res) => {
 
         // -- Check User -- //
         let foundUser = await User.findOne({ email });
+        // let foundUser = await User.findOne({ email }).select("+password");
         console.log(`Found User: ${foundUser}`);
+        
         if(!foundUser) {
             return res.status(401).json({ errorMessage: "Not Authorized"});
         }
         // -- Verify Password -- //
-        const verified = await bcrypt.compare(password, foundUser.password);
-        console.log(`Verified: ${verified}`);
-        if(!verified) {
+        // const verified = await bcrypt.compare(password, foundUser.password);
+        // console.log(`Verified: ${verified}`);
+        // if(!verified) {
+            //      return res.status(401).json({ errorMessage: "Not Authorized"});
+            // }
+            
+        // -- Verify Password -- //
+        const isMatch = await foundUser.matchPassword(password);
+        console.log(isMatch);
+        if(!isMatch) {
              return res.status(401).json({ errorMessage: "Not Authorized"});
         }
 
@@ -109,6 +118,8 @@ const login = async (req, res) => {
         // -- For Testing -- //
         console.log(`Token: ${token}`);
         console.log("Login Successful");
+
+        // sendToken(foundUser, res);
 
         // -- Send Token -- //
         // res.status(200).cookie("token", token, { httpOnly: true }).send();
@@ -152,6 +163,15 @@ const logout = (req, res) => {
         console.log(error);
         res.json(error);
     }
+}
+
+// @desc     VERIFY TOKEN
+// @route    None
+// @access   Private
+const sendToken = (user, res) => {
+    const token = user.getSignedToken();
+    // --> ADD TOKEN TO COOKIES ??? 
+    res.status(200).json({ success: true, token: token});
 }
 
 module.exports = {

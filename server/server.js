@@ -5,7 +5,7 @@ const path = require("path");
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-
+// const errorHandler = require('./utils/errorResponse');
 const routes = require('./routes');
 const connectDB = require('./config/connection');
 
@@ -24,6 +24,8 @@ app.use(cors({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Error Handler Should be last piece of Middleware
+// app.use(errorHandler);
 
 /* === Routing === */
 app.use(routes);
