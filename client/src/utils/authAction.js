@@ -1,13 +1,8 @@
 import axios from 'axios';
-// import cookie from 'react-cookie';
-// let cookie = require('cookie');
-// import cookie from 'cookie';
-// import cookie from 'react-cookies';
-// import Cookies from 'js-cookie';
 
 // Login User
 export const login = (email, password) => async (dispatch) => {
-
+    console.log("Running Login ACTION");
     try {
         // Set 'loading' to true
         dispatch({ type: 'GET_LOGIN_REQUEST' });
@@ -20,27 +15,18 @@ export const login = (email, password) => async (dispatch) => {
             withCredentials: true
          }
         // Send Request to Server
-        // const { data } = await axios.get('/api/users/loggedIn');
         const { data } = await axios.post('/api/users/login', { email, password }, config);
-        // await axios.post('/api/users/login', { email, password }, config);
 
-        // const data = cookie.parse('token');
-        // let data = cookie.load("token");
-        // let d2 = Cookies.get("token");
         console.log("Found User Action...");
         console.log(data);
-        // console.log(typeof d2);
         console.log(typeof data);
-        // console.log(d2[0]);
-        // console.log(d2[1]);
-        // console.log(d2[2]);
-        // console.log(Cookies.get());
+
         // Set 'payload' to returned DATA (from Server)
         dispatch({
             type: 'GET_LOGIN_SUCCESS',
             payload: data
         })
-        // Set User Info 
+        // Set User Info (??) 
         // localStorage.setItem('userInfo', JSON.stringify(data));
     } catch(error) {
         // Throw 'error' to dispatch
@@ -52,7 +38,30 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 export const logout = () => async (dispatch) => {
-    console.log("Running LOGOUT DISPATCH ...");
+    console.log("Running LOGOUT ACTION ...");
     axios.get('/api/users/logout');
     dispatch({ type: 'USER_LOGOUT'});
 }
+
+export const hasAuth = () => async (dispatch) => {
+    console.log('Running hasAuth ACTION ...');
+    try {
+        // Attach Authorization Headers
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept":"application/json"
+            },
+            withCredentials: true
+        }
+
+        let { data } = await axios.get('/api/users/loggedIn', config);
+        console.log(data);
+
+        
+    } catch(error) {
+        console.log(error);
+    }
+
+}
+

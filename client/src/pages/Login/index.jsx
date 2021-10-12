@@ -16,14 +16,16 @@ const Login = () => {
     const dispatch = useDispatch();
     const userLogin = useSelector(state => state.userLogin);
     const { loading, error, userInfo } = userLogin;
+    console.log(userInfo);
 
     const history = useHistory();
 
-    useEffect(() => {
-        if(userInfo) {
-            history.push('/');
-        }
-    }, [userInfo]) 
+    // Check to see if USER is already LOGGED IN
+    // useEffect(() => {
+    //     if(userInfo) {
+    //         history.push('/');
+    //     }
+    // }, [userInfo]) 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,16 +33,6 @@ const Login = () => {
         // Dispatch LOGIN
         dispatch(login(email, password))
         history.push('/');
-        // try {
-        //     let loginData = {
-        //         email,
-        //         password
-        //     }
-        //     await axios.post('http://localhost:3001/api/users/login', loginData, { withCredentials: true });
-        //     history.push('/');
-        // } catch(err) {
-        //     console.error(err);
-        // }
     }; 
 
     return (

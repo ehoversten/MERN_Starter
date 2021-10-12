@@ -6,7 +6,7 @@ import axios from 'axios';
 const Dashboard = () => {
 
     const [loggedIn, setLoggedIn] = useState(false) ;
-    const [user, setUser] = useState();
+    const [user, setUser] = useState({});
 
     useEffect( async () => {
         // HOW TO SEND THE COOKIE (JWT) with the REQUEST (???)
@@ -18,6 +18,7 @@ const Dashboard = () => {
             }, 
             withCredential: true
         });
+        console.log(data);
 
         if(!data) {
             setLoggedIn(false);
@@ -27,7 +28,7 @@ const Dashboard = () => {
             setLoggedIn(true);
         }
 
-    }, [])
+    }, [loggedIn, user])
 
     return (
         <Container id="dash">
