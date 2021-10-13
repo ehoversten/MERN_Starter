@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import { logout } from '../../utils/authAction';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import axios from 'axios';
@@ -11,7 +12,8 @@ const Header = () => {
     const userLogin = useSelector(state => state.userLogin);
     console.log("IN HEADER ...")
     console.log(userLogin);
-    const { userInfo } = userLogin
+    const { userInfo } = userLogin;
+    const history = useHistory();
 
     useEffect( async () => {
         
@@ -37,6 +39,7 @@ const Header = () => {
     const handleLogout = () => {
         console.log("LOGOUT ....");
         dispatch(logout());
+        history.push('/');
     }
 
     return (

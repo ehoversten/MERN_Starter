@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { register } from '../../utils/authAction';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 import './styles.css';
-import axios from 'axios';
+// import axios from 'axios';
 
 const Register = () => {
 
@@ -12,26 +14,33 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
+
+    const dispatch = useDispatch();
+    const userRegister = useSelector(state => state.userRegister);
+    const { loading, error, userInfo } = userRegister;
+    console.log(userInfo);
+
     const history = useHistory();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Submission...")
-
-        try {
-            let registerData = {
-                first, 
-                last, 
-                username,
-                email,
-                password,
-                confirm
-            }
-            await axios.post('http://localhost:3001/api/users/register', registerData, { withCredentials: true });
-            history.push('/');
-        } catch(err) {
-            console.error(err);
-        }
+        dispatch(register(first, last, username, email, password, confirm))
+        history.push('/');
+        // try {
+        //     let registerData = {
+        //         first, 
+        //         last, 
+        //         username,
+        //         email,
+        //         password,
+        //         confirm
+        //     }
+        //     await axios.post('http://localhost:3001/api/users/register', registerData, { withCredentials: true });
+        //     history.push('/');
+        // } catch(err) {
+        //     console.error(err);
+        // }
     }; 
 
     return (

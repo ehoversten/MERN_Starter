@@ -42,6 +42,7 @@ export const logout = () => async (dispatch) => {
     console.log("Running LOGOUT ACTION ...");
     axios.get('/api/users/logout');
     dispatch({ type: 'USER_LOGOUT'});
+    // history.push('/');
 }
 
 export const hasAuth = () => async (dispatch) => {
@@ -66,7 +67,7 @@ export const hasAuth = () => async (dispatch) => {
 
 
 // -- Register User
-export const register = (firstName, lastName, username, email, password, confirm) => async (dispatch) => {
+export const register = (first, last, username, email, password, confirm) => async (dispatch) => {
     console.log("Running Register ACTION");
     try {
         // Set 'loading' to true
@@ -80,7 +81,7 @@ export const register = (firstName, lastName, username, email, password, confirm
             withCredentials: true
          }
         // Send Request to Server
-        const { data } = await axios.post('/api/users/register', { firstName, lastName, username, email, password, confirm }, config);
+        const { data } = await axios.post('/api/users/register', { first, last, username, email, password, confirm }, config);
 
         console.log("Created User Action...");
         console.log(data);
@@ -89,6 +90,11 @@ export const register = (firstName, lastName, username, email, password, confirm
         // Set 'payload' to returned DATA (from Server)
         dispatch({
             type: 'GET_REGISTER_SUCCESS',
+            payload: data
+        })
+
+        dispatch({
+            type: 'GET_LOGIN_SUCCESS',
             payload: data
         })
         // Set User Info (??) 

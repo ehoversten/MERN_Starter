@@ -24,11 +24,11 @@ const Dashboard = () => {
             setLoggedIn(false);
         } else {
             console.log(data);
-            setUser(data);
+            // setUser(data);
             setLoggedIn(true);
         }
 
-    }, [loggedIn, user])
+    }, [])
 
     return (
         <Container id="dash">
