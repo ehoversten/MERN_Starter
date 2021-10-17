@@ -17,12 +17,12 @@ const Header = () => {
 
     useEffect( async () => {
         
+        // SEND THE COOKIE (JWT) with the REQUEST
         let { data } = await axios.get('/api/users/loggedIn', {
             headers: {
                 "Content-Type":"application/json",
                 "Accept":"application/json"
             }, 
-            // HOW TO SEND THE COOKIE (JWT) with the REQUEST (???)
             withCredential: true
         });
         console.log(data);

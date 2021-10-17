@@ -9,8 +9,7 @@ const Dashboard = () => {
     const [user, setUser] = useState({});
 
     useEffect( async () => {
-        // HOW TO SEND THE COOKIE (JWT) with the REQUEST (???)
-
+        // SEND THE COOKIE (JWT) with the REQUEST
         let { data } = await axios.get('/api/users/loggedIn', {
             headers: {
                 "Content-Type":"application/json",

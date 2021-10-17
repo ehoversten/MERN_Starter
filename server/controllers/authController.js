@@ -29,8 +29,6 @@ const register = async (req, res) => {
         }
 
         let existingUser = await User.findOne({ email });
-        // -- For Testing -- //
-        // console.log(existingUser);
 
         if(existingUser) {
             res.status(400)
@@ -49,13 +47,8 @@ const register = async (req, res) => {
             password: password
         });
 
-        // -- For Testing -- //
-        // console.log(newUser);
-        // console.log('*********');
-
         // -- Save Record -- //
         const savedUser = await User.create(newUser);
-        // console.log(savedUser);
 
         // -- Create Token -- //
         const token = jwt.sign({
@@ -63,7 +56,7 @@ const register = async (req, res) => {
         }, process.env.JWT_SECRET);
 
         // -- For Testing -- //
-        console.log(`Token: ${token}`);
+        // console.log(`Token: ${token}`);
 
         // -- Send Token -- //
         res.status(201).cookie("token", token, { httpOnly: true }).send();
@@ -91,7 +84,7 @@ const login = async (req, res) => {
         // -- Check User -- //
         let foundUser = await User.findOne({ email });
         // let foundUser = await User.findOne({ email }).select("+password");
-        console.log(`Found User: ${foundUser}`);
+        // console.log(`Found User: ${foundUser}`);
         
         if(!foundUser) {
             return res.status(401).json({ errorMessage: "Not Authorized"});
@@ -116,8 +109,8 @@ const login = async (req, res) => {
         }, process.env.JWT_SECRET);
 
         // -- For Testing -- //
-        console.log(`Token: ${token}`);
-        console.log("Login Successful");
+        // console.log(`Token: ${token}`);
+        // console.log("Login Successful");
 
         // sendToken(foundUser, res);
 
